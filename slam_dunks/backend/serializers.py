@@ -7,7 +7,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         exclude = ['date_joined', 'last_login', 'is_admin', 'is_staff', 'is_active', 'is_superuser']
-        read_only_fields = ['id', 'phone', 'email']
+        read_only_fields = ['id']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
@@ -32,13 +32,13 @@ class CitySerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         city = City(
-            name=validated_data['city']
+            name=validated_data['name']
         )
         city.save()
         return city
 
 class VenueSerializer(serializers.ModelSerializer):
-    city = serializers.SlugRelatedField(queryset=City.objects.all(), slug_field='city')
+    city = serializers.SlugRelatedField(queryset=City.objects.all(), slug_field='name')
     class Meta:
         model = Venue
         fields = '__all__'
