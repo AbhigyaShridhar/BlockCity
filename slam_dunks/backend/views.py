@@ -4,6 +4,7 @@ from .serializers import UserSerializer, TeamSerializer, SchoolSerializer, Venue
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
+from django.http import HttpResponse
 
 # Create your views here.
 class UserList(generics.ListCreateAPIView):
@@ -12,7 +13,6 @@ class UserList(generics.ListCreateAPIView):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (AllowAny,)
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     """
@@ -20,11 +20,9 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (AllowAny,)
 
 class MatchOver(generics.UpdateAPIView):
     queryset = Team.objects.all()
-    permission_classes = (AllowAny,)
     serializer_class = TeamSerializer
 
     def Post(self, request, winner, pk):
@@ -72,9 +70,10 @@ class Register(generics.ListCreateAPIView):
                 user.save()
                 token = Token.objects.get_or_create(user=user)[0].key
                 data["message"] = "user registered successfully"
-                data["phone number"] = account.number
-                data["username"] = account.username
+                data["phone number"] = user.number
+                data["username"] = user.username
                 data["token"] = token
+                login(request, user)
             else:
                 return HttpResponse(status=400)
             return Response(data)
@@ -134,12 +133,10 @@ class VenueList(generics.ListCreateAPIView):
 
     queryset = Venue.objects.all()
     serializer_class = VenueSerializer
-    permission_classes = (AllowAny,)
 
 class CityList(generics.ListCreateAPIView):
 
     queryset = City.objects.all()
-    permission_classes = (AllowAny,)
     serializer_class = CitySerializer
 
 class MatchList(generics.ListCreateAPIView):
@@ -148,4 +145,3 @@ class MatchList(generics.ListCreateAPIView):
     """
     queryset = Match.objects.all()
     serializer_class = MatchSerializer
-    permission_classes = (AllowAny,)
