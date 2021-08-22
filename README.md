@@ -1,3 +1,8 @@
+All of the back-end has been implemented in the [BlockCity/slam_dunks](https://github.com/AbhigyaShridhar/BlockCity/tree/main/slam_dunks) directory
+
+
+
+
 # BlockCity API:
 
 ## _This is the documentation for Api routes this application is going to use:
