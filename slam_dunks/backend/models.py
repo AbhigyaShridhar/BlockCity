@@ -100,4 +100,4 @@ class Match(models.Model):
         s = self.team1.name + ' vs ' + self.team.name
         return s
 
-#class Bet(models.Model)
+#class Bet(models.Model) 
